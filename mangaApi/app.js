@@ -16,9 +16,9 @@ app.get('/manga', (req, res) => {
 
     if (!reqId && !reqTitle) {
         res.status(400).json({
-                    status: "error",
-                    error: "Query parameter should contain 'id' or 'title'"
-                  });
+                                 status: "error",
+                                 error: "Query parameter should contain 'id' or 'title'"
+                             });
     } else {
         //find by id
         if (reqId) {
@@ -26,10 +26,10 @@ app.get('/manga', (req, res) => {
                 const singleData = JSON.parse(data)[reqId - 1];
                 if (!singleData) {
                     res.status(404).json({
-                        status: "error",
-                        error: `Manga id = ${reqId} does not exist`
-                    });
-                } else{
+                                             status: "error",
+                                             error: `Manga id = ${reqId} does not exist`
+                                         });
+                } else {
                     res.send(singleData);
                 }
             });
@@ -38,9 +38,9 @@ app.get('/manga', (req, res) => {
                 const singleTitle = JSON.parse(data).find(manga => manga.title === reqTitle);
                 if (!singleTitle) {
                     res.status(404).json({
-                        status: "error",
-                        error: `Manga title = ${reqTitle} does not exist`
-                    });
+                                             status: "error",
+                                             error: `Manga title = ${reqTitle} does not exist`
+                                         });
                 } else {
                     res.send(singleTitle);
                 }
@@ -57,31 +57,31 @@ app.post('/manga/new', (req, res) => {
 
     if (!newTitle || !newAuthor || !newDate) {
         res.status(400).json({
-            status: "error",
-            error: "Missing query parameters should contain 'title' , 'author' and 'date'"
-          });
+                                 status: "error",
+                                 error: "Missing query parameters should contain 'title' , 'author' and 'date'"
+                             });
 
     } else {
         fs.readFile(json, 'utf-8', (err, data) => {
             let array = JSON.parse(data)
             let longueur = array.length;
+            const singleData = JSON.parse(data)[longueur - 1];
 
             array.push({
-                           id: longueur + 1,
+                           id: singleData.id + 1,
                            title: newTitle,
                            author: newAuthor,
                            date: newDate
                        })
-
             fs.writeFile(json, JSON.stringify(array), (err) => {
                 err ? console.log(err) : null;
             });
         })
-        res.send('new manga added : ' + {
-            "title": newTitle,
-            "author": newAuthor,
-            "date": newDate
-        });
+        res.send('new manga added : ' + `{
+            "title": ${newTitle},
+            "author": ${newAuthor},
+            "date": ${newDate}
+        }`);
     }
 });
 
@@ -90,30 +90,39 @@ app.put('/manga/edit', (req, res) => {
     const reqId = req.query['id'];
     if (!reqId) {
         res.status(400).json({
-            status: "error",
-            error: "Query parameter should contain 'id'"
-          });
+                                 status: "error",
+                                 error: "Query parameter should contain 'id'"
+                             });
     } else {
         fs.readFile(json, 'utf-8', (err, data) => {
             let array = JSON.parse(data)
-            let newTitle = req.query['title'];
-            let newAuthor = req.query['author'];
-            let newDate = req.query['date'];
 
-            const modif = {
-                id: parseInt(req.query['id']),
-                title: newTitle,
-                author: newAuthor,
-                date: newDate,
-            };
-            const newTab = array.filter(manga => manga.id !== modif.id)
-            newTab.push(modif);
+            const singleData = array[reqId - 1];
+            if (!singleData) {
+                res.status(404).json({
+                                         status: "error",
+                                         error: "Manga Not Found"
+                                     });
+            } else {
+                let newTitle = req.query['title'];
+                let newAuthor = req.query['author'];
+                let newDate = req.query['date'];
 
-            fs.writeFile(json, JSON.stringify(newTab.sort((a, b) => a.id - b.id)), (err) => {
-                err ? console.log(err) : null;
-            });
+                const modif = {
+                    id: parseInt(req.query['id']),
+                    title: newTitle,
+                    author: newAuthor,
+                    date: newDate,
+                };
+                const newTab = array.filter(manga => manga.id !== modif.id)
+                newTab.push(modif);
+
+                fs.writeFile(json, JSON.stringify(newTab.sort((a, b) => a.id - b.id)), (err) => {
+                    err ? console.log(err) : null;
+                });
+                res.send(`manga id = ${reqId} edited`);
+            }
         })
-        res.send(`manga id = ${reqId} edited`);
     }
 });
 
@@ -124,18 +133,25 @@ app.delete('/manga/delete', (req, res) => {
         fs.readFile(json, (err, data) => {
             let array = JSON.parse(data);
             const singleData = array[reqId - 1];
-            const filteredManga = array.filter(manga => manga.id !== singleData.id);
+            if (!singleData) {
+                res.status(404).json({
+                                         status: "error",
+                                         error: "Manga Not Found"
+                                     });
+            } else {
+                const filteredManga = array.filter(manga => manga.id !== singleData.id);
 
-            fs.writeFile(json, JSON.stringify(filteredManga), (err) => {
-                err ? console.log(err) : null;
-            });
+                fs.writeFile(json, JSON.stringify(filteredManga), (err) => {
+                    err ? console.log(err) : null;
+                });
+            }
         });
         res.send(`manga id = ${reqId} deleted`);
     } else {
         res.status(400).json({
-            status: "error",
-            error: "Query parameter should contain 'id'"
-          });
+                                 status: "error",
+                                 error: "Query parameter should contain 'id'"
+                             });
     }
 });
 app.listen(8989);
