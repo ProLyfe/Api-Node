@@ -1,38 +1,38 @@
 [
-    {
-        "id": 1,
-        "title": "",
-        "author": "Kentaro Miura",
-        "date": "1992"
-    },
-    {
-        "id": 2,
-        "title": "LOL",
-        "author": "Haaaaaaaa",
-        "date": "9999"
-    },
-    {
-        "id": 3,
-        "title": "Dragon Ball Z",
-        "author": "Akira Toriyama",
-        "date": "1984"
-    },
-    {
-        "id": 4,
-        "title": "Hunter x Hunter",
-        "author": "Yoshihiro Togashi",
-        "date": "1998"
-    },
-    {
-        "id": 5,
-        "title": "Tensei",
-        "author": "Axel",
-        "date": "2005"
-    },
-    {
-        "id": 6,
-        "title": "Tensei",
-        "author": "Axel",
-        "date": "2005"
-    }
+  {
+    "id": 1,
+    "title": "",
+    "author": "Kentaro Miura",
+    "date": "1992"
+  },
+  {
+    "id": 2,
+    "title": "LOL",
+    "author": "Haaaaaaaa",
+    "date": "9999"
+  },
+  {
+    "id": 3,
+    "title": "Dragon Ball Z",
+    "author": "Akira Toriyama",
+    "date": "1984"
+  },
+  {
+    "id": 4,
+    "title": "Hunter x Hunter",
+    "author": "Yoshihiro Togashi",
+    "date": "1998"
+  },
+  {
+    "id": 5,
+    "title": "Tensei",
+    "author": "Axel",
+    "date": "2005"
+  },
+  {
+    "id": 6,
+    "title": "Tensei",
+    "author": "Axel",
+    "date": "2005"
+  }
 ]
