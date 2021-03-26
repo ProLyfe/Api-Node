@@ -15,6 +15,17 @@
 
 ## Installation et lancement :
 
-```
+```js
 npm install
 ```
+
+```js
+node app.js
+```
+
+or if Nodemon insalled :
+
+```js
+nodemon app.js
+```
+
