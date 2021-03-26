@@ -10,5 +10,11 @@
  * Express
  
  
- ## Précisions
+ ## Précisions :
  Projet réalisé princiaplement via l'extension LiveShare, les commits ne sont donc pas représentatifs du travail effectué par chacun. 
+
+## Installation et lancement :
+
+```
+npm install
+```
